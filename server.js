@@ -1,11 +1,24 @@
 import express from "express";
-
+import morgan from "morgan";
 import router from "./routes/books.js";
 import writeFile from "./utils/writeFile.js";
-
+import fs from "fs";
+import path from "path";
 const app = express();
 
 app.use(express.json());
+
+app.use(morgan("dev"));
+
+const logDirectory = path.join(process.cwd(), "logging");
+if (!fs.existsSync(logDirectory)) {
+  fs.mkdirSync(logDirectory, { recursive: true });
+}
+const accessLogStream = fs.createWriteStream(
+  path.join(logDirectory, "log.txt"),
+  { flags: "a" }
+);
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use("/books", router);
 
