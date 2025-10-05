@@ -3,8 +3,6 @@ import fetchData from "../utils/fetchData.js";
 
 const router = express.Router();
 
-
-
 function searchForDate(arr, start, end) {
   const items = arr.filter((book) => {
     const bookDate = new Date(book.datePublished);
@@ -30,7 +28,7 @@ router.get("/", (req, res) => {
     if (startDate && endDate) {
       const start = new Date(startDate);
       const end = new Date(endDate);
-      if (isNaN(start) || isNaN(end)) {
+      if (isNaN(start.getTime()) || isNaN(end.getTime())) {
         return res.status(500).json({ error: "Invalid date format" });
       }
       if (start > end) {
@@ -68,7 +66,6 @@ router.get("/", (req, res) => {
 });
 
 router.get("/toprated", (_, res) => {
-
   const data = fetchData("../data/books.json", "books");
   const toprated = data
     .map((book) => ({
