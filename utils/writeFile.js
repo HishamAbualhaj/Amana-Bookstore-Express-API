@@ -9,6 +9,6 @@ function writeFile(newData, url, fileName) {
   const filePath = path.join(_pathName, url);
   const books = [...data, newData];
 
-  writeFileSync(filePath, JSON.stringify({ books }));
+  writeFileSync(filePath, JSON.stringify({ [fileName]: books }));
 }
 export default writeFile;
