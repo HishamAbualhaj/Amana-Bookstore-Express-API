@@ -1,4 +1,4 @@
-import express from "express";
+import express, { response } from "express";
 import morgan from "morgan";
 import router from "./routes/books.js";
 import writeFile from "./utils/writeFile.js";
@@ -22,6 +22,11 @@ app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use("/books", router);
 
+app.get("/", (req, res) => {
+  res.status(201).json({
+    response: "Welcome to amana bookstore express api",
+  });
+});
 app.post("/addBook", (req, res) => {
   const newBook = req.body;
 
